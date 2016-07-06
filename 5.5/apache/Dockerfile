@@ -9,7 +9,12 @@ RUN apt-get update && apt-get install -y libpng12-dev libjpeg-dev libpq-dev \
 	&& docker-php-ext-install opcache \
 	&& pecl install redis-2.2.8 \
   && docker-php-ext-enable redis \
+	&& echo "export DOCROOT=\$DOCROOT" >> /etc/apache2/envvars \
 	&& a2enmod rewrite \
 	&& rm -rf /var/lib/apt/lists/*
+
+ENV DOCROOT=/var/www/html
+
+COPY drupal.conf /etc/apache2/sites-enabled/drupal.conf
 
 COPY opcache-recommended.ini drupal.ini /usr/local/etc/php/conf.d/
