@@ -14,5 +14,3 @@ Version | Type | Tags | Dockerfile
  | apache | `7.0-apache`, `7-apache` | [Dockerfile](https://github.com/introbay/php/blob/dev/7.0/apache/Dockerfile)
  | fpm | `7.0-fpm`, `7.fpm`, `7.0`, `7` | [Dockerfile](https://github.com/introbay/php/blob/dev/7.0/fpm/Dockerfile)
  |  | `7.0-alpine-fpm`, `7.0-alpine` | [Dockerfile](https://github.com/introbay/php/blob/dev/7.0-alpine/fpm/Dockerfile)
-
-**Deprecation notice:** introbay/php:5.4 and drupaldocker/php:5.5 EOL date: **December 13, 2016**
