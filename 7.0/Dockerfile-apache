@@ -26,4 +26,4 @@ COPY drupal-*.ini /usr/local/etc/php/conf.d/
 RUN php -r "readfile('https://s3.amazonaws.com/files.drush.org/drush.phar');" > drush \
 	&& php drush core-status \
 	&& chmod +x drush \
-	&& sudo mv drush /usr/local/bin
+	&& mv drush /usr/local/bin
