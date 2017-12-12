@@ -58,8 +58,9 @@ RUN curl http://j.mp/spf13-vim3 -L -o - | sh \
     && echo "PS1='[\${debian_chroot:+(\$debian_chroot)}\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]\$(__git_ps1 \" (%s)\")]\\$ '" >> /root/.bashrc
 
 # Install development tools for compile sass
-RUN apt-get install -y bundler \
-&& rm -rf /var/lib/apt/lists/*
+RUN apt-get update \
+  && apt-get install -y bundler \
+  && rm -rf /var/lib/apt/lists/*
 
 # Install Prestissimo
 RUN composer global require hirak/prestissimo
