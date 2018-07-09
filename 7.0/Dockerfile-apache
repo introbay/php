@@ -27,3 +27,6 @@ ENV COMPOSER_HOME /root/composer
 ENV COMPOSER_VERSION master
 
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
+
+# Set localtime to Europe/Madrid
+RUN rm /etc/localtime && cp /usr/share/zoneinfo/Europe/Madrid /etc/localtime
