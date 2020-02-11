@@ -4,5 +4,6 @@ PHP
 
 Version | Type | Tags | Dockerfile
 --- | --- | --- | ---
-7.0 | apache | `7.0-apache`, `7-apache` | [Dockerfile](https://github.com/introbay/php/blob/master/7.0/Dockerfile-apache)
+7.0 | apache | `7.0-apache` | [Dockerfile](https://github.com/introbay/php/blob/master/7.0/Dockerfile-apache)
+7.4 | apache | `7.4-apache` | [Dockerfile](https://github.com/introbay/php/blob/master/7.4/Dockerfile-apache)
 
