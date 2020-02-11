@@ -1,0 +1,78 @@
+FROM php:7.4-apache-buster
+#FROM php:7.4-alpine3.11
+MAINTAINER ignacio@introbay.com
+
+RUN a2enmod rewrite
+
+RUN apt-get update; \
+	apt-get install -y --no-install-recommends \
+		libfreetype6-dev \
+		libjpeg-dev \
+		libpng-dev \
+		libpq-dev \
+		libzip-dev \
+		git
+
+RUN docker-php-ext-configure gd \
+		--with-freetype \
+		--with-jpeg
+
+RUN docker-php-ext-install -j "$(nproc)" \
+		gd \
+		opcache \
+		pdo_mysql \
+		zip \
+		bcmath
+
+# Compile and install uploadprogress #
+RUN git clone https://github.com/Jan-E/uploadprogress.git /tmp/php-uploadprogress \
+	&& cd /tmp/php-uploadprogress \
+	&& phpize \
+	&& ./configure --prefix=/usr \
+	&& make \
+	&& make install \
+	&& echo 'extension=uploadprogress.so' > $PHP_INI_DIR/conf.d/uploadprogress.ini \
+	&& rm -rf /tmp/*
+
+RUN apt-get remove -y git && \
+    apt-get autoremove -y && \
+    docker-php-source delete && \
+    rm -rf /var/lib/apt/lists/*
+
+COPY drupal-*.ini /usr/local/etc/php/conf.d/
+
+#RUN apt-get update && apt-get install -y  git zip mysql-client bundler graphicsmagick \
+
+
+## Compile and install uploadprogress #
+#RUN git clone https://github.com/Jan-E/uploadprogress.git /tmp/php-uploadprogress \
+#	&& cd /tmp/php-uploadprogress \
+#	&& phpize \
+#	&& ./configure --prefix=/usr \
+#	&& make \
+#	&& make install \
+#	&& echo 'extension=uploadprogress.so' > $PHP_INI_DIR/conf.d/uploadprogress.ini \
+#	&& rm -rf /tmp/*
+#
+#COPY drupal-*.ini /usr/local/etc/php/conf.d/
+#
+## Install composer
+#ENV COMPOSER_HOME /root/composer
+#ENV COMPOSER_VERSION master
+#
+#RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
+#
+## Set localtime to Europe/Madrid
+#RUN rm /etc/localtime && cp /usr/share/zoneinfo/Europe/Madrid /etc/localtime
+
+########## alpine
+#RUN apk add --no-cache --virtual .dd-build-deps libpng-dev libjpeg-turbo-dev postgresql-dev libxml2-dev libzip-dev oniguruma-dev $PHPIZE_DEPS \
+#   && docker-php-ext-configure gd --with-jpeg=/usr \
+#   && docker-php-ext-install gd mbstring pdo_mysql pdo_pgsql zip \
+#   && docker-php-ext-install opcache bcmath soap \
+#   && pecl install redis-3.1.1 \
+#   && docker-php-ext-enable redis \
+#   && apk add --no-cache libpng libjpeg libpq libxml2 libzip-dev \
+#   && apk del .dd-build-deps
+#
+#COPY drupal-*.ini /usr/local/etc/php/conf.d/
