@@ -7,37 +7,37 @@ RUN set -eux; \
     a2enmod rewrite; \
     \
     apt-get update; \
-	apt-get install -y --no-install-recommends \
-		libfreetype6-dev \
-		libjpeg-dev \
-		libpng-dev \
-		libpq-dev \
-		libzip-dev \
-		mariadb-client \
-		git; \
+    apt-get install -y --no-install-recommends \
+        libfreetype6-dev \
+        libjpeg-dev \
+        libpng-dev \
+        libpq-dev \
+        libzip-dev \
+        mariadb-client \
+        git; \
 	\
-	docker-php-ext-configure gd \
-		--with-freetype \
-		--with-jpeg; \
+    docker-php-ext-configure gd \
+        --with-freetype \
+        --with-jpeg; \
 	\
-	docker-php-ext-install -j "$(nproc)" \
-		gd \
-		opcache \
-		pdo_mysql \
-		zip \
-		bcmath; \
-	\
-	# Compile and install uploadprogress #
+    docker-php-ext-install -j "$(nproc)" \
+        gd \
+        opcache \
+        pdo_mysql \
+        zip \
+        bcmath; \
+    \
+    # Compile and install uploadprogress #
     git clone https://github.com/Jan-E/uploadprogress.git /tmp/php-uploadprogress; \
-	cd /tmp/php-uploadprogress; \
-	phpize; \
-	./configure --prefix=/usr; \
-	make; \
-	make install; \
-	echo 'extension=uploadprogress.so' > $PHP_INI_DIR/conf.d/uploadprogress.ini; \
-	rm -rf /tmp/*; \
-	\
-	apt-get remove -y git; \
+    cd /tmp/php-uploadprogress; \
+    phpize; \
+    ./configure --prefix=/usr; \
+    make; \
+    make install; \
+    echo 'extension=uploadprogress.so' > $PHP_INI_DIR/conf.d/uploadprogress.ini; \
+    rm -rf /tmp/*; \
+    \
+    apt-get remove -y git; \
     apt-get autoremove -y; \
     docker-php-source delete; \
     rm -rf /var/lib/apt/lists/*;
