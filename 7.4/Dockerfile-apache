@@ -16,7 +16,7 @@ ADD ./vimrc.before.local /root/.vimrc.before.local
 
 RUN set -eux; \
 	apt-get update; \
-    apt-get install -y locales libpcre3-dev git vim-nox exuberant-ctags; \
+    apt-get install -y locales libpcre3-dev git vim-nox exuberant-ctags ruby-dev; \
     \
 	# Set the locale
 	sed -i -e 's/# en_US.UTF-8 UTF-8/en_US.UTF-8 UTF-8/' /etc/locale.gen; \
