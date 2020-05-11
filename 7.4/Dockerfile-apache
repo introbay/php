@@ -14,6 +14,7 @@ RUN set -eux; \
         libpq-dev \
         libzip-dev \
         mariadb-client \
+	postgresql-client \
         git; \
 	\
     docker-php-ext-configure gd \
@@ -24,6 +25,7 @@ RUN set -eux; \
         gd \
         opcache \
         pdo_mysql \
+	pdo_pgsql \
         zip \
         bcmath; \
     \
