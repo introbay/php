@@ -15,21 +15,21 @@ ADD ./ctags /root/.ctags
 ADD ./vimrc.before.local /root/.vimrc.before.local
 
 RUN set -eux; \
-	apt-get update; \
-    apt-get install -y locales libpcre3-dev git vim-nox exuberant-ctags ruby-dev; \
+    apt-get update; \
+    apt-get install -y locales libpcre3-dev git vim-nox exuberant-ctags ruby-dev bundler; \
     \
-	# Set the locale
-	sed -i -e 's/# en_US.UTF-8 UTF-8/en_US.UTF-8 UTF-8/' /etc/locale.gen; \
+    # Set the locale
+    sed -i -e 's/# en_US.UTF-8 UTF-8/en_US.UTF-8 UTF-8/' /etc/locale.gen; \
     sed -i -e 's/# es_ES.UTF-8/es_ES.UTF-8/' /etc/locale.gen; \
     echo 'LANG="es_ES.UTF-8"' > /etc/default/locale; \
     dpkg-reconfigure --frontend=noninteractive locales; \
     update-locale LANG=es_ES.UTF-8; \
     \
-	## Dev configuration
-	pecl install -o -f xdebug; \
-	docker-php-ext-enable xdebug; \
-	\
-	pear channel-update pear.php.net; \
+    ## Dev configuration
+    pecl install -o -f xdebug; \
+    docker-php-ext-enable xdebug; \
+    \
+    pear channel-update pear.php.net; \
     pear install PHP_Debug; \
     pear install PHP_CodeSniffer-3.5.4; \
     \
@@ -42,7 +42,7 @@ RUN set -eux; \
     echo "" >> /root/.bashrc; \
     echo "source /usr/share/bash-completion/completions/git" >> /root/.bashrc; \
     \
-	# Git
+    # Git
     git config --global color.branch auto; \
     git config --global color.diff auto; \
     git config --global color.status auto; \
@@ -52,12 +52,12 @@ RUN set -eux; \
     echo "source ~/.git-prompt.sh" >> /root/.bashrc; \
     echo "PS1='[\${debian_chroot:+(\$debian_chroot)}\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]\$(__git_ps1 \" (%s)\")]\\$ '" >> /root/.bashrc; \
     \
-	# Install composer
-	curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer; \
-	\
-	# Install Prestissimo
-	composer global require hirak/prestissimo; \
-	\
+    # Install composer
+    curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer; \
+    \
+    # Install Prestissimo
+    composer global require hirak/prestissimo; \
+    \
     rm -rf /var/lib/apt/lists/*; \
     rm -rf /tmp/pear; \
     \
