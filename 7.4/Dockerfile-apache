@@ -27,7 +27,8 @@ RUN set -eux; \
         pdo_mysql \
 	pdo_pgsql \
         zip \
-        bcmath; \
+        bcmath \
+	exif; \
     \
     # Compile and install uploadprogress #
     git clone https://github.com/Jan-E/uploadprogress.git /tmp/php-uploadprogress; \
